@@ -2,7 +2,6 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import lombok.var;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,8 @@ public class AuthTest {
             @Test
             @DisplayName("Success registered user")
             void successRegisteredUser() {
-                var registeredUser = DataGenerator.Registration.getRegisteredUser("active");
+                DataGenerator.RegistrationDto registeredUser;
+                registeredUser = DataGenerator.Registration.getRegisteredUser("active");
                 $("[data-test-id='login'] input").setValue(registeredUser.getLogin());
                 $("[data-test-id='password'] input").setValue(registeredUser.getPassword());
                 $("[data-test-id='action-login'] .button__content").click();
@@ -36,7 +36,8 @@ public class AuthTest {
             @Test
             @DisplayName("Error login not registered")
             void errorLoginNotRegistered() {
-                var notRegisteredUser = DataGenerator.Registration.getUser("active");
+                DataGenerator.RegistrationDto notRegisteredUser;
+                notRegisteredUser = DataGenerator.Registration.getUser("active");
                 $("[data-test-id='login'] input").setValue(notRegisteredUser.getLogin());
                 $("[data-test-id='password'] input").setValue(notRegisteredUser.getPassword());
                 $("[data-test-id='action-login'] .button__content").click();
@@ -47,7 +48,8 @@ public class AuthTest {
             @Test
             @DisplayName("Error login blocked")
             void errorLoginBlocked() {
-                var blockedUser = DataGenerator.Registration.getRegisteredUser("blocked");
+                DataGenerator.RegistrationDto blockedUser;
+                blockedUser = DataGenerator.Registration.getRegisteredUser("blocked");
                 $("[data-test-id='login'] input").setValue(blockedUser.getLogin());
                 $("[data-test-id='password'] input").setValue(blockedUser.getPassword());
                 $("[data-test-id='action-login'] .button__content").click();
@@ -58,8 +60,10 @@ public class AuthTest {
             @Test
             @DisplayName("Error login invalid login")
             void errorInvalidLogin() {
-                var registeredUser = DataGenerator.Registration.getRegisteredUser("active");
-                var wrongLogin = DataGenerator.getRandomLogin();
+                DataGenerator.RegistrationDto registeredUser;
+                registeredUser = DataGenerator.Registration.getRegisteredUser("active");
+                String wrongLogin;
+                wrongLogin = DataGenerator.getRandomLogin();
                 $("[data-test-id='login'] input").setValue(wrongLogin);
                 $("[data-test-id='password'] input").setValue(registeredUser.getPassword());
                 $("[data-test-id='action-login'] .button__content").click();
@@ -70,8 +74,10 @@ public class AuthTest {
             @Test
             @DisplayName("Error invalid password")
             void errorInvalidPassword() {
-                var registeredUser = DataGenerator.Registration.getRegisteredUser("active");
-                var wrongPassword = DataGenerator.getRandomPassword();
+                DataGenerator.RegistrationDto registeredUser;
+                registeredUser = DataGenerator.Registration.getRegisteredUser("active");
+                String wrongPassword;
+                wrongPassword = DataGenerator.getRandomPassword();
                 $("[data-test-id='login'] input").setValue(registeredUser.getLogin());
                 $("[data-test-id='password'] input").setValue(wrongPassword);
                 $("[data-test-id='action-login'] .button__content").click();
